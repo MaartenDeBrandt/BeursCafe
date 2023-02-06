@@ -24,13 +24,14 @@ namespace BeursCafeWPF
     public partial class MainWindow : Window
     {
         private readonly DrinksViewModel viewModel;
-
         public MainWindow(DrinksViewModel drinksViewModel)
         {
             InitializeComponent();
             viewModel = drinksViewModel;
 
-            DataContext= viewModel;
+            DataContext = viewModel;
+
+            
         }
 
         private void OnButtonSoldClick(object sender, RoutedEventArgs e)
@@ -40,7 +41,46 @@ namespace BeursCafeWPF
             Drink drink = (Drink)button.DataContext;
             viewModel.DrinkSold(drink);
         }
-            
 
+        private void IncreaseFont_Click(object sender, RoutedEventArgs e)
+        {
+            BreakingNewsTextBlock.FontSize += 2;
+
+            foreach (TextBlock tb in FindVisualChildren<TextBlock>(DrinksDataGrid))
+            {
+                tb.FontSize += 2;
+            }
+
+        }
+
+        private void DecreaseFont_Click(object sender, RoutedEventArgs e)
+        {
+            BreakingNewsTextBlock.FontSize -= 2;
+
+            foreach (TextBlock tb in FindVisualChildren<TextBlock>(DrinksDataGrid))
+            {
+                tb.FontSize -= 2;
+            }
+        }
+
+        private static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj != null)
+            {
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+                {
+                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
+                    if (child != null && child is T)
+                    {
+                        yield return (T)child;
+                    }
+
+                    foreach (T childOfChild in FindVisualChildren<T>(child))
+                    {
+                        yield return childOfChild;
+                    }
+                }
+            }
+        }
     }
 }

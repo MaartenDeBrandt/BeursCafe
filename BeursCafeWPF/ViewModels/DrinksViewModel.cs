@@ -28,8 +28,6 @@ namespace BeursCafeWPF.ViewModels
 
         public DrinksViewModel(DrinksPriceService drinksPriceService, BreakingNewsService breakingNewsService, SettingsViewModel settingsViewModel)
         {
-
-            _breakingNews = "test breaking news some text";
             _drinksPriceService = drinksPriceService;
             _breakingNewsService = breakingNewsService;
             _settingsViewModel = settingsViewModel;

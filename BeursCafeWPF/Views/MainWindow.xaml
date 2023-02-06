@@ -5,51 +5,51 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="1" x:Name="BreakingNewsTextBlock" Text="{Binding BreakingNews}" Margin="5" FontSize="20" FontWeight="Bold" />
-        <ItemsControl Grid.Row="0" ItemsSource="{Binding Drinks}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="80"/>
-                            <ColumnDefinition Width="50"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="{Binding Name}" Margin="5"/>
-                        <TextBlock Grid.Column="1" Text="{Binding Price, StringFormat='€{0:0.00}'}" Margin="5"/>
-                        <TextBlock Grid.Column="3" Text="&#9650;" Foreground="Red" Margin="5" FontWeight="Bold" >
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding PriceWillRise}" Value="True">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                        <TextBlock Grid.Column="3" Text="&#9660;" Foreground="Green" Margin="5" FontWeight="Bold" >
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding PriceWillFall}" Value="True">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-
-                      
-
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-       
+        <TextBlock Grid.Row="1" x:Name="BreakingNewsTextBlock" Text="{Binding BreakingNews}" Margin="5" FontSize="40" FontWeight="Bold" />
+        <DataGrid x:Name="DrinksDataGrid" Grid.Row="0" AutoGenerateColumns="False" ItemsSource="{Binding Drinks}" GridLinesVisibility="Horizontal">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="" Binding="{Binding Name}" FontSize="30"/>
+                <DataGridTextColumn Header="" Binding="{Binding Price, StringFormat='€{0:0.00}'}" FontSize="30"/>
+                <DataGridTemplateColumn Header="">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock x:Name="DrinkRedArrow" Text="&#9650;" Foreground="Red" Margin="5" FontWeight="Bold" FontSize="15">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding PriceWillRise}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <TextBlock x:Name="DrinkGreenArrow" Text="&#9660;" Foreground="Green" Margin="5" FontWeight="Bold" FontSize="15">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding PriceWillFall}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <Button Content="Increase Font Size" Click="IncreaseFont_Click"/>
+            <Button Content="Decrease Font Size" Click="DecreaseFont_Click"/>
+        </StackPanel>
     </Grid>
 </Window>

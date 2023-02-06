@@ -44,6 +44,8 @@ namespace BeursCafeWPF.Services
             foreach (var drink in drinks)
             {
                 drink.SoldCount = 0;
+                drink.PriceWillFall = false;
+                drink.PriceWillRise = false;
             }
 
             //TODO add logic to deal with BreakingNews updates. This could make certain beers more expensive or cheaper.
