@@ -13,8 +13,9 @@
                         <Button Content="+5" Click="OnButtonSoldClick5" Margin="5"/>
                         <Button Content="+10" Click="OnButtonSoldClick10" Margin="5"/>
                         <TextBlock Text="{Binding Name}" Margin="5"/>
-                        <TextBlock Text="{Binding Price, StringFormat='€{0:0.00}'}" Margin="5"/>                        
-                    </StackPanel>
+                        <TextBlock Text="{Binding Price, StringFormat='€{0:0.00}'}" Margin="5"/>
+                        <TextBlock Text="{Binding SoldCount}" Margin="5"/>
+                        </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
