@@ -4,7 +4,7 @@
         Title="Beurs Cafe Admin" Height="850" Width="525">
     <Grid>
         <StackPanel Orientation="Vertical" Margin="5">
-            <ListBox ItemsSource="{Binding Drinks}">
+            <ListBox x:Name="DrinkList" ItemsSource="{Binding Drinks}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -21,6 +21,11 @@
       
             <Button x:Name="BreakingNewsButton" Content="Breaking News" Click="OnBreakingNewsClick" Margin="5"/>
             <Button x:Name="UpdatePrices" Content="UpdatePrices" Click ="UpdatePrices_Click"  Margin="5"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <Button Content="Increase Font Size" Click="IncreaseFont_Click"/>
+            <Button Content="Decrease Font Size" Click="DecreaseFont_Click"/>
         </StackPanel>
     </Grid>
 </Window>

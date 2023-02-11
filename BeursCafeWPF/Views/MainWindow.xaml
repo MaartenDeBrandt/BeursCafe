@@ -3,13 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Beurs Cafe" Height="850" Width="525">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <TextBlock Grid.Row="1" x:Name="BreakingNewsTextBlock" Text="{Binding BreakingNews}" Margin="5" FontSize="40" FontWeight="Bold" />
-        <DataGrid x:Name="DrinksDataGrid" Grid.Row="0" AutoGenerateColumns="False" ItemsSource="{Binding Drinks}" GridLinesVisibility="Horizontal">
+            <TextBlock Grid.Row="1" x:Name="BreakingNewsTextBlock" Text="{Binding BreakingNews}" Margin="5" FontSize="40" FontWeight="Bold" />
+            <DataGrid x:Name="DrinksDataGrid" Grid.Row="0" AutoGenerateColumns="False" ItemsSource="{Binding Drinks}" GridLinesVisibility="Horizontal">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="" Binding="{Binding Name}" FontSize="30"/>
                 <DataGridTextColumn Header="" Binding="{Binding Price, StringFormat='€{0:0.00}'}" FontSize="30"/>
@@ -47,6 +42,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <TextBlock Text="{Binding Counter}" Name="textBlockCounter" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="50"/>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
             <Button Content="Increase Font Size" Click="IncreaseFont_Click"/>
             <Button Content="Decrease Font Size" Click="DecreaseFont_Click"/>

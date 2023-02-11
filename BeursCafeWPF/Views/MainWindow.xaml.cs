@@ -3,6 +3,7 @@ using BeursCafeWPF.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,6 +46,7 @@ namespace BeursCafeWPF
         private void IncreaseFont_Click(object sender, RoutedEventArgs e)
         {
             BreakingNewsTextBlock.FontSize += 2;
+            textBlockCounter.FontSize += 2;
 
             foreach (TextBlock tb in FindVisualChildren<TextBlock>(DrinksDataGrid))
             {
@@ -82,5 +84,6 @@ namespace BeursCafeWPF
                 }
             }
         }
+    
     }
 }
