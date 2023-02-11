@@ -1,4 +1,5 @@
-﻿using BeursCafeWPF.Models;
+﻿using BeursCafeBusiness.Models;
+using BeursCafeWPF.Models;
 using BeursCafeWPF.ViewModels;
 using Newtonsoft.Json;
 using System;
@@ -22,35 +23,40 @@ namespace BeursCafeWPF.Services
             _settingsViewModel = settingsViewModel;
         }
 
-        internal void UpdateExpectedDrinksUpdate(IEnumerable<Drink> drinks)
+        internal void UpdateExpectedDrinksUpdate(IEnumerable<Drink> allDrinks)
         {
-            //Update all prices
-            foreach (var drink in drinks)
+            foreach (var drinks in allDrinks.GroupBy(el => el.DrinksType))
             {
-                drink.UpdateExpectedPriceUpdate(drinks);
+                //Update all prices
+                foreach (var drink in drinks)
+                {
+                    drink.UpdateExpectedPriceUpdate(drinks);
+                }
             }
 
             //TODO deal with expected breaking news updates
         }
 
-        internal void UpdateDrinksPrice(IEnumerable<Drink> drinks)
+        internal void UpdateDrinksPrice(IEnumerable<Drink> allDrinks)
         {
-            //Update all prices
-            foreach (var drink in drinks)
+            foreach (var drinks in allDrinks.GroupBy(el => el.DrinksType))
             {
-                drink.UpdatePriceBasedOnSoldCount(drinks);
-            }
-            //Set all sold counts to 0
-            foreach (var drink in drinks)
-            {
-                drink.SoldCount = 0;
-                drink.PriceWillFall = false;
-                drink.PriceWillRise = false;
-            }
+                //Update all prices
+                foreach (var drink in drinks)
+                {
+                    drink.UpdatePriceBasedOnSoldCount(drinks);
+                }
+                //Set all sold counts to 0
+                foreach (var drink in drinks)
+                {
+                    drink.SoldCount = 0;
+                    drink.PriceWillFall = false;
+                    drink.PriceWillRise = false;
+                }
 
-            //TODO add logic to deal with BreakingNews updates. This could make certain beers more expensive or cheaper.
-            CompensateForMarketImbalance(drinks);
-
+                //TODO add logic to deal with BreakingNews updates. This could make certain beers more expensive or cheaper.
+                CompensateForMarketImbalance(drinks);
+            }
         }
 
         //Try to get the total sum of prices the same as the normal prices. Dont drop to fast.
@@ -107,13 +113,17 @@ namespace BeursCafeWPF.Services
             {
                 return new ObservableCollection<Drink>
                 {
-                    new Drink { Name = "Jupiler", Description = "A warm, comforting drink", MinimumPrice = 1.0, MaximumPrice = 3.0 , DefaultPrice = 1.5},
-                    new Drink { Name = "Cola", Description = "A warm, comforting drink", MinimumPrice = 1.0, MaximumPrice = 3.0 , DefaultPrice = 1.5},
-                    new Drink { Name = "Water", Description = "A warm, comforting drink", MinimumPrice = 1.0, MaximumPrice = 3.0 , DefaultPrice = 1.5},
-                    new Drink { Name = "Duvel", Description = "A warm, comforting drink", MinimumPrice = 2.0, MaximumPrice = 6.0 , DefaultPrice = 3},
-                    new Drink { Name = "Karmeliet", Description = "A warm, comforting drink", MinimumPrice = 2.0, MaximumPrice = 6.0 , DefaultPrice = 3},
-                    new Drink { Name = "Geuze", Description = "A warm, comforting drink", MinimumPrice = 2.0, MaximumPrice = 6.0 , DefaultPrice = 3},
-                    new Drink { Name = "Carolus", Description = "A warm, comforting drink", MinimumPrice = 2.0, MaximumPrice = 6.0 , DefaultPrice = 3}
+                    new Drink { Name = "Jupiler", DrinksType = DrinksTypes.beer, MinimumPrice = 1.0, MaximumPrice = 3.0 , DefaultPrice = 1.5},
+                    new Drink { Name = "Hoegaarden", DrinksType = DrinksTypes.beer, MinimumPrice = 1.0, MaximumPrice = 3.0 , DefaultPrice = 1.5},
+                    new Drink { Name = "Cola", DrinksType = DrinksTypes.softdrink, MinimumPrice = 1.0, MaximumPrice = 3.0 , DefaultPrice = 1.5},
+                    new Drink { Name = "Water", DrinksType = DrinksTypes.softdrink, MinimumPrice = 1.0, MaximumPrice = 3.0 , DefaultPrice = 1.5},
+                    new Drink { Name = "Icetea", DrinksType = DrinksTypes.softdrink, MinimumPrice = 1.0, MaximumPrice = 3.0 , DefaultPrice = 1.5},
+                    new Drink { Name = "Duvel", DrinksType = DrinksTypes.beer, MinimumPrice = 2.0, MaximumPrice = 6.0 , DefaultPrice = 3},
+                    new Drink { Name = "Karmeliet", DrinksType = DrinksTypes.beer, MinimumPrice = 2.0, MaximumPrice = 6.0 , DefaultPrice = 3},
+                    new Drink { Name = "Kasteelbier rouge", DrinksType = DrinksTypes.beer, MinimumPrice = 2.0, MaximumPrice = 6.0 , DefaultPrice = 3},
+                    new Drink { Name = "Geuze", DrinksType = DrinksTypes.beer, MinimumPrice = 2.0, MaximumPrice = 6.0 , DefaultPrice = 3},
+                    new Drink { Name = "Satan White", DrinksType = DrinksTypes.beer, MinimumPrice = 2.0, MaximumPrice = 6.0 , DefaultPrice = 3},
+                    new Drink { Name = "Carolus", DrinksType = DrinksTypes.beer, MinimumPrice = 2.0, MaximumPrice = 6.0 , DefaultPrice = 3}
 
                 };
 

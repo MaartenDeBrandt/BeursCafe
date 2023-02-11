@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BeursCafeBusiness.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -11,7 +12,6 @@ namespace BeursCafeWPF.Models
     public class Drink : INotifyPropertyChanged
     {
         private string name;
-        private string description;
         private double minimumPrice;
         private double maximumPrice;
         private double defaultPrice;
@@ -33,16 +33,7 @@ namespace BeursCafeWPF.Models
             }
         }
 
-        public string Description
-        {
-            get { return description; }
-            set
-            {
-                description = value;
-                OnPropertyChanged("Description");
-            }
-        }
-
+        public DrinksTypes DrinksType { get; set; }
         public double MinimumPrice
         {
             get { return minimumPrice; }
