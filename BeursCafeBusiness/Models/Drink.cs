@@ -33,7 +33,7 @@ namespace BeursCafeWPF.Models
             }
         }
 
-        public DrinksTypes DrinksType { get; set; }
+        public string DrinksType { get; set; }
         public double MinimumPrice
         {
             get { return minimumPrice; }

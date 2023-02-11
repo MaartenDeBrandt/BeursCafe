@@ -113,17 +113,17 @@ namespace BeursCafeWPF.Services
             {
                 return new ObservableCollection<Drink>
                 {
-                    new Drink { Name = "Jupiler", DrinksType = DrinksTypes.beer, MinimumPrice = 1.0, MaximumPrice = 3.0 , DefaultPrice = 1.5},
-                    new Drink { Name = "Hoegaarden", DrinksType = DrinksTypes.beer, MinimumPrice = 1.0, MaximumPrice = 3.0 , DefaultPrice = 1.5},
-                    new Drink { Name = "Cola", DrinksType = DrinksTypes.softdrink, MinimumPrice = 1.0, MaximumPrice = 3.0 , DefaultPrice = 1.5},
-                    new Drink { Name = "Water", DrinksType = DrinksTypes.softdrink, MinimumPrice = 1.0, MaximumPrice = 3.0 , DefaultPrice = 1.5},
-                    new Drink { Name = "Icetea", DrinksType = DrinksTypes.softdrink, MinimumPrice = 1.0, MaximumPrice = 3.0 , DefaultPrice = 1.5},
-                    new Drink { Name = "Duvel", DrinksType = DrinksTypes.beer, MinimumPrice = 2.0, MaximumPrice = 6.0 , DefaultPrice = 3},
-                    new Drink { Name = "Karmeliet", DrinksType = DrinksTypes.beer, MinimumPrice = 2.0, MaximumPrice = 6.0 , DefaultPrice = 3},
-                    new Drink { Name = "Kasteelbier rouge", DrinksType = DrinksTypes.beer, MinimumPrice = 2.0, MaximumPrice = 6.0 , DefaultPrice = 3},
-                    new Drink { Name = "Geuze", DrinksType = DrinksTypes.beer, MinimumPrice = 2.0, MaximumPrice = 6.0 , DefaultPrice = 3},
-                    new Drink { Name = "Satan White", DrinksType = DrinksTypes.beer, MinimumPrice = 2.0, MaximumPrice = 6.0 , DefaultPrice = 3},
-                    new Drink { Name = "Carolus", DrinksType = DrinksTypes.beer, MinimumPrice = 2.0, MaximumPrice = 6.0 , DefaultPrice = 3}
+                    new Drink { Name = "Jupiler", DrinksType = "bier", MinimumPrice = 1.0, MaximumPrice = 3.0 , DefaultPrice = 1.5},
+                    new Drink { Name = "Hoegaarden", DrinksType = "bier", MinimumPrice = 1.0, MaximumPrice = 3.0 , DefaultPrice = 1.5},
+                    new Drink { Name = "Cola", DrinksType = "frisdrank", MinimumPrice = 1.0, MaximumPrice = 3.0 , DefaultPrice = 1.5},
+                    new Drink { Name = "Water", DrinksType = "frisdrank", MinimumPrice = 1.0, MaximumPrice = 3.0 , DefaultPrice = 1.5},
+                    new Drink { Name = "Icetea", DrinksType = "frisdrank", MinimumPrice = 1.0, MaximumPrice = 3.0 , DefaultPrice = 1.5},
+                    new Drink { Name = "Duvel", DrinksType = "bier", MinimumPrice = 2.0, MaximumPrice = 6.0 , DefaultPrice = 3},
+                    new Drink { Name = "Karmeliet", DrinksType = "bier", MinimumPrice = 2.0, MaximumPrice = 6.0 , DefaultPrice = 3},
+                    new Drink { Name = "Kasteelbier rouge", DrinksType = "bier", MinimumPrice = 2.0, MaximumPrice = 6.0 , DefaultPrice = 3},
+                    new Drink { Name = "Geuze", DrinksType = "bier", MinimumPrice = 2.0, MaximumPrice = 6.0 , DefaultPrice = 3},
+                    new Drink { Name = "Satan White", DrinksType = "bier", MinimumPrice = 2.0, MaximumPrice = 6.0 , DefaultPrice = 3},
+                    new Drink { Name = "Carolus", DrinksType = "bier", MinimumPrice = 2.0, MaximumPrice = 6.0 , DefaultPrice = 3}
 
                 };
 
