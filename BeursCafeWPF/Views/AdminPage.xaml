@@ -19,7 +19,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
       
-            <Button x:Name="BreakingNewsButton" Content="Breaking News" Click="OnBreakingNewsClick" Margin="5"/>
+            <Button x:Name="BreakingNewsButton" Content="Breaking News" Visibility="Hidden" Click="OnBreakingNewsClick" Margin="5"/>
             <Button x:Name="UpdatePrices" Content="UpdatePrices" Click ="UpdatePrices_Click"  Margin="5"/>
         </StackPanel>
 

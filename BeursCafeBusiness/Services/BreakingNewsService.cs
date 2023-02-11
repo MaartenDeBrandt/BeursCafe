@@ -1,5 +1,4 @@
-﻿using BeursCafeWPF.ViewModels;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BeursCafeWPF.Services
+namespace BeursCafeBusiness.Services
 {
     public class BreakingNewsService
     {
@@ -15,7 +14,7 @@ namespace BeursCafeWPF.Services
         {
         }
 
-        internal string GetBreakingNews()
+        public string GetBreakingNews()
         {
             // Read breaking news texts from JSON file
             var breakingNewsJson = File.ReadAllText("breakingnews.json");

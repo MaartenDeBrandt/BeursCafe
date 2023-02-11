@@ -1,4 +1,4 @@
-﻿using BeursCafeWPF.Models;
+﻿using BeursCafeBusiness.Models;
 using BeursCafeWPF.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System;

@@ -1,4 +1,4 @@
-﻿using BeursCafeWPF.Models;
+﻿using BeursCafeBusiness.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,9 +10,10 @@ using System.Timers;
 using Newtonsoft.Json;
 using System.IO;
 using System.Diagnostics;
-using BeursCafeWPF.Services;
+using BeursCafeBusiness.Services;
 using System.Threading;
 using System.Diagnostics.Metrics;
+using BeursCafeBusiness.Services;
 
 namespace BeursCafeWPF.ViewModels
 {
@@ -20,7 +21,8 @@ namespace BeursCafeWPF.ViewModels
     {
         private readonly DrinksPriceService _drinksPriceService;
         private readonly BreakingNewsService _breakingNewsService;
-        private readonly SettingsViewModel _settingsViewModel;
+        private readonly FileService _fileService;
+        private readonly Settings _settings;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -28,12 +30,14 @@ namespace BeursCafeWPF.ViewModels
         private string _breakingNews;
         private int _counter;
 
-        public DrinksViewModel(DrinksPriceService drinksPriceService, BreakingNewsService breakingNewsService, SettingsViewModel settingsViewModel)
+        public DrinksViewModel(DrinksPriceService drinksPriceService, BreakingNewsService breakingNewsService, FileService fileService, Settings settings)
         {
             _drinksPriceService = drinksPriceService;
             _breakingNewsService = breakingNewsService;
-            _settingsViewModel = settingsViewModel;
-            Drinks = _drinksPriceService.LoadDrinks();
+            _fileService = fileService;
+            _settings = settings;
+
+            Drinks = _fileService.LoadDrinks();
 
             StartTimer();
         }       
@@ -93,13 +97,13 @@ namespace BeursCafeWPF.ViewModels
 
     #endregion
 
-    #region timerMethods
+        #region timerMethods
 
         private System.Timers.Timer _timer;
         private System.Timers.Timer _timerVisual;
         public void StartTimer()
         {
-            _timer = new System.Timers.Timer(_settingsViewModel.PriceUpdateIntervalInMs / (_settingsViewModel.TimesToUpdateExpectedInInterval + 1));
+            _timer = new System.Timers.Timer(_settings.PriceUpdateIntervalInMs / (_settings.TimesToUpdateExpectedInInterval + 1));
             _timer.Elapsed += Timer;
             _timer.Start();
 
@@ -107,7 +111,7 @@ namespace BeursCafeWPF.ViewModels
             _timerVisual.Elapsed += TimerUpdateCounter;
             _timerVisual.Start();
 
-            Counter = _settingsViewModel.PriceUpdateIntervalInMs / 1000;
+            Counter = _settings.PriceUpdateIntervalInMs / 1000;
         }
 
 
@@ -120,7 +124,7 @@ namespace BeursCafeWPF.ViewModels
 
         public void Timer(object sender, ElapsedEventArgs e)
         {
-            if (timerCounter < _settingsViewModel.TimesToUpdateExpectedInInterval)
+            if (timerCounter < _settings.TimesToUpdateExpectedInInterval)
             {
                 if (timerCounter == 0)
                 {
@@ -136,7 +140,7 @@ namespace BeursCafeWPF.ViewModels
                 //Actually update the drink prices
                 _drinksPriceService.UpdateDrinksPrice(Drinks);
                 timerCounter = 0;
-                Counter = _settingsViewModel.PriceUpdateIntervalInMs / 1000;
+                Counter = _settings.PriceUpdateIntervalInMs / 1000;
             }
             OnPropertyChanged(nameof(Drinks));
         }
