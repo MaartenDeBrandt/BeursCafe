@@ -107,7 +107,7 @@ namespace BeursCafeWPF.ViewModels
             _timer.Elapsed += Timer;
             _timer.Start();
 
-            _timerVisual = new System.Timers.Timer(5000);
+            _timerVisual = new System.Timers.Timer(1000);
             _timerVisual.Elapsed += TimerUpdateCounter;
             _timerVisual.Start();
 
@@ -115,34 +115,42 @@ namespace BeursCafeWPF.ViewModels
         }
 
 
-        public void TimerUpdateCounter(object sender, ElapsedEventArgs e)
+        public async void TimerUpdateCounter(object sender, ElapsedEventArgs e)
         {
-            Counter-=5;
+            await Task.Run(() =>
+            {
+                Counter -= 1;
+            });
         }
         
         int timerCounter;
 
-        public void Timer(object sender, ElapsedEventArgs e)
+        public async void Timer(object sender, ElapsedEventArgs e)
         {
-            if (timerCounter < _settings.TimesToUpdateExpectedInInterval)
+            await Task.Run(() =>
             {
-                if (timerCounter == 0)
+                if (timerCounter < _settings.TimesToUpdateExpectedInInterval)
                 {
-                    //Select 1 drink to be sold a random amount at the beginning of an interval
-                    _drinksPriceService.SellRandomDrink(Drinks);
+                    if (timerCounter == 0)
+                    {
+                        //Select 1 drink to be sold a random amount at the beginning of an interval
+                        _drinksPriceService.SellRandomDrink(Drinks);
+                    }
+
+                    //Update what the price of drinks is expected to do. Will show red or green arrows in page
+                    _drinksPriceService.UpdateExpectedDrinksUpdate(Drinks);
+                    timerCounter++;
                 }
-                //Update what the price of drinks is expected to do. Will show red or green arrows in page
-                _drinksPriceService.UpdateExpectedDrinksUpdate(Drinks);
-                timerCounter++;
-            }
-            else
-            {
-                //Actually update the drink prices
-                _drinksPriceService.UpdateDrinksPrice(Drinks);
-                timerCounter = 0;
-                Counter = _settings.PriceUpdateIntervalInMs / 1000;
-            }
-            OnPropertyChanged(nameof(Drinks));
+                else
+                {
+                    //Actually update the drink prices
+                    _drinksPriceService.UpdateDrinksPrice(Drinks);
+                    timerCounter = 0;
+                    Counter = _settings.PriceUpdateIntervalInMs / 1000;
+                }
+
+                OnPropertyChanged(nameof(Drinks));                
+            });
         }
 
         #endregion
