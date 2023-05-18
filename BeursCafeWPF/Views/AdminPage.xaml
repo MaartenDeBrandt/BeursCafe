@@ -5,7 +5,7 @@
     <Grid>
         <StackPanel Orientation="Vertical" Margin="5">            
             <StackPanel Orientation="Horizontal" Margin="5">                
-                <ListBox x:Name="DrinkListBier" ItemsSource="{Binding Bier}">
+                <ListBox x:Name="DrinkListBier" ItemsSource="{Binding BierAll}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -13,6 +13,7 @@
                                 <Button Content="+3" Click="OnButtonSoldClick3" Margin="5"/>
                                 <Button Content="+5" Click="OnButtonSoldClick5" Margin="5"/>
                                 <Button Content="+10" Click="OnButtonSoldClick10" Margin="5"/>
+                                <Button Content="Hide" Click="OnHide" Margin="5"/>
                                 <TextBlock Text="{Binding Name}" Margin="5"/>
                                 <TextBlock Text="{Binding Price, StringFormat='€{0:0.00}'}" Margin="5"/>
                                 <TextBlock Text="{Binding SoldCount}" Margin="5" Visibility="Hidden"/>
@@ -20,7 +21,7 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <ListBox x:Name="DrinkListFrisdrank" ItemsSource="{Binding Frisdrank}">
+                <ListBox x:Name="DrinkListFrisdrank" ItemsSource="{Binding FrisdrankAll}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -28,6 +29,7 @@
                                 <Button Content="+3" Click="OnButtonSoldClick3" Margin="5"/>
                                 <Button Content="+5" Click="OnButtonSoldClick5" Margin="5"/>
                                 <Button Content="+10" Click="OnButtonSoldClick10" Margin="5"/>
+                                <Button Content="Hide" Click="OnHide" Margin="5"/>
                                 <TextBlock Text="{Binding Name}" Margin="5"/>
                                 <TextBlock Text="{Binding Price, StringFormat='€{0:0.00}'}" Margin="5"/>
                                 <TextBlock Text="{Binding SoldCount}" Margin="5" Visibility="Hidden"/>

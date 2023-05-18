@@ -6,7 +6,7 @@
 
         <StackPanel Grid.Row="2" Grid.Column="2" Name="DrinksStack" Orientation="Horizontal">
        
-            <DataGrid x:Name="DrinksDataGridBier" Grid.Row="0" AutoGenerateColumns="False" ItemsSource="{Binding Bier}" GridLinesVisibility="Horizontal" IsReadOnly="True">
+            <DataGrid x:Name="DrinksDataGridBier" Grid.Row="0" AutoGenerateColumns="False" ItemsSource="{Binding BierEnabled}" GridLinesVisibility="Horizontal" IsReadOnly="True">
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Setter Property="IsHitTestVisible" Value="False"/>
@@ -50,7 +50,7 @@
             </DataGrid.Columns>
         </DataGrid>
 
-            <DataGrid x:Name="DrinksDataGridFrisdrank" Grid.Row="0" AutoGenerateColumns="False" ItemsSource="{Binding Frisdrank}" GridLinesVisibility="Horizontal" IsReadOnly="True">
+            <DataGrid x:Name="DrinksDataGridFrisdrank" Grid.Row="0" AutoGenerateColumns="False" ItemsSource="{Binding FrisdrankEnabled}" GridLinesVisibility="Horizontal" IsReadOnly="True">
                 <DataGrid.RowStyle>
                     <Style TargetType="DataGridRow">
                         <Setter Property="IsHitTestVisible" Value="False"/>

@@ -21,7 +21,10 @@ namespace BeursCafeBusiness.Models
         private bool priceWillFall;
 
         public event PropertyChangedEventHandler PropertyChanged;
-
+        public Drink()
+        {
+            Enabled= true;
+        }
         public string Name
         {
             get { return name; }
@@ -121,6 +124,9 @@ namespace BeursCafeBusiness.Models
                 OnPropertyChanged("PriceWillRise");
             }
         }
+
+        public bool Enabled { get; internal set; }
+
         public void UpdatePriceBasedOnSoldCount(IEnumerable<Drink> allDrinks)
         {
             double priceUpdate = CalculatePriceUpdate(allDrinks);

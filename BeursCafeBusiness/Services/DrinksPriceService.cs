@@ -109,5 +109,10 @@ namespace BeursCafeBusiness.Services
         {
             drinks.ToList().ForEach(el => el.Price = el.MinimumPrice);
         }
+
+        public void HideDrink(Drink drink)
+        {
+            drink.Enabled = !drink.Enabled;
+        }
     }
 }

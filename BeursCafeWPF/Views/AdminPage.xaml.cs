@@ -60,6 +60,13 @@ namespace BeursCafeWPF
             Drink drink = (Drink)button.DataContext;
             viewModel.DrinkSold(drink, 10);
         }
+        private void OnHide(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+
+            Drink drink = (Drink)button.DataContext;
+            viewModel.HideDrink(drink);
+        }
         private void OnBreakingNewsClick(object sender, RoutedEventArgs e)
         {
             viewModel.BreakingNews = "Test";
