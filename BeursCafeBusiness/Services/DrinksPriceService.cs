@@ -96,13 +96,16 @@ namespace BeursCafeBusiness.Services
             }
         }
 
-        public void SellRandomDrink(IEnumerable<Drink> drinks)
+        public void SellRandomDrink(IEnumerable<Drink> drinks, double numberOfDringsChanged)
         {
             var drinksList = drinks.ToList();
 
             Random random = new Random();
-            int randomDrinkInt = random.Next(0, drinksList.Count);
-            drinksList[randomDrinkInt].SoldCount += random.Next(1, 3);
+            for (int i = 0; i < numberOfDringsChanged; i++)
+            {
+                int randomDrinkInt = random.Next(0, drinksList.Count);
+                drinksList[randomDrinkInt].SoldCount += random.Next(1, 3);
+            }
         }
 
         public void BeursCrash(IEnumerable<Drink> drinks)
@@ -113,6 +116,17 @@ namespace BeursCafeBusiness.Services
         public void HideDrink(Drink drink)
         {
             drink.Enabled = !drink.Enabled;
+        }
+
+        public void FinishOrder(IEnumerable<Drink> drinks)
+        {
+            drinks.ToList().ForEach(el => el.SoldCount = el.SoldCurrentOrder);
+            ResetOrder(drinks);
+        }
+
+        public void ResetOrder(IEnumerable<Drink> drinks)
+        {
+            drinks.ToList().ForEach(el => el.SoldCurrentOrder = 0);
         }
     }
 }

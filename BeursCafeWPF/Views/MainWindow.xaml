@@ -96,12 +96,15 @@
         </StackPanel>
         
         <TextBlock Text="{Binding Counter}" Name="textBlockCounter" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="50"/>
-        <TextBlock x:Name="BreakingNewsTextBlock" Text="{Binding BreakingNews}" Margin="5" FontSize="40" FontWeight="Bold"  VerticalAlignment="Bottom"  Foreground="Red"/>
-        
-        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-            <Button Content="Increase Font Size" Click="IncreaseFont_Click"/>
-            <Button Content="Decrease Font Size" Click="DecreaseFont_Click"/>
+
+        <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Vertical" VerticalAlignment="Bottom">
+            <TextBlock x:Name="BreakingNewsTextBlock" Text="{Binding BreakingNews}" Margin="5" FontSize="40" FontWeight="Bold"  VerticalAlignment="Bottom"  Foreground="Red"/>
+            
+            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                <Button Content="Font +" Click="IncreaseFont_Click"/>
+                <Button Content="Font -" Click="DecreaseFont_Click"/>
+            </StackPanel>
+            
         </StackPanel>
-    
     </Grid>
 </Window>

@@ -103,6 +103,7 @@ namespace BeursCafeBusiness.Models
             }
         }
 
+        public int SoldCurrentOrder { get; set; }
         public bool PriceWillRise
         {
             get { return priceWillRise; }

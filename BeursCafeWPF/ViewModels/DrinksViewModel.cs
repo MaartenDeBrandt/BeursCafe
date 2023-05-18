@@ -14,6 +14,7 @@ using BeursCafeBusiness.Services;
 using System.Threading;
 using System.Diagnostics.Metrics;
 using BeursCafeBusiness.Services;
+using System.Configuration;
 
 namespace BeursCafeWPF.ViewModels
 {
@@ -51,7 +52,8 @@ namespace BeursCafeWPF.ViewModels
 
         public void DrinkSold(Drink drink, int numberSold = 1)
         {
-            drink.SoldCount += numberSold;
+            drink.SoldCurrentOrder += numberSold;
+            FireDrinksPropertyChanged();
         }
         internal void BeursCrash()
         {
@@ -106,17 +108,9 @@ namespace BeursCafeWPF.ViewModels
                 FireDrinksPropertyChanged();
             }
         }
+        
+        public double CurrentOrderTotalPrice => Math.Round(ActiveDrinks.Sum(drink => drink.SoldCurrentOrder * drink.Price),1);
 
-        private void FireDrinksPropertyChanged()
-        {
-            OnPropertyChanged(nameof(ActiveDrinks));
-            OnPropertyChanged(nameof(AllDrinks));
-            OnPropertyChanged(nameof(BierEnabled));
-            OnPropertyChanged(nameof(FrisdrankEnabled));
-            OnPropertyChanged(nameof(BierAll));
-            OnPropertyChanged(nameof(FrisdrankAll));
-            OnPropertyChanged(nameof(BreakingNews));
-        }
 
         public IEnumerable<Drink> ActiveDrinks
         {
@@ -142,6 +136,17 @@ namespace BeursCafeWPF.ViewModels
             }
         }
 
+        private void FireDrinksPropertyChanged()
+        {
+            OnPropertyChanged(nameof(ActiveDrinks));
+            OnPropertyChanged(nameof(AllDrinks));
+            OnPropertyChanged(nameof(BierEnabled));
+            OnPropertyChanged(nameof(FrisdrankEnabled));
+            OnPropertyChanged(nameof(BierAll));
+            OnPropertyChanged(nameof(FrisdrankAll));
+            OnPropertyChanged(nameof(BreakingNews));
+            OnPropertyChanged(nameof(CurrentOrderTotalPrice));            
+        }
         #endregion
 
         #region timerMethods
@@ -181,7 +186,7 @@ namespace BeursCafeWPF.ViewModels
                     if (timerCounter == 0)
                     {
                         //Select 1 drink to be sold a random amount at the beginning of an interval
-                        _drinksPriceService.SellRandomDrink(ActiveDrinks);
+                        _drinksPriceService.SellRandomDrink(ActiveDrinks, 3);
                     }
 
                     //Update what the price of drinks is expected to do. Will show red or green arrows in page
@@ -207,7 +212,17 @@ namespace BeursCafeWPF.ViewModels
             FireDrinksPropertyChanged();
         }
 
+        internal void FinishOrder()
+        {
+            _drinksPriceService.FinishOrder(ActiveDrinks);
+            FireDrinksPropertyChanged();
+        }
 
+        internal void ResetOrder()
+        {
+            _drinksPriceService.ResetOrder(ActiveDrinks);
+            FireDrinksPropertyChanged();
+        }
 
         #endregion
     }

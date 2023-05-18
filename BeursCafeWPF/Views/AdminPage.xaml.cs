@@ -67,9 +67,19 @@ namespace BeursCafeWPF
             Drink drink = (Drink)button.DataContext;
             viewModel.HideDrink(drink);
         }
+
+        
         private void OnBreakingNewsClick(object sender, RoutedEventArgs e)
         {
             viewModel.BreakingNews = "Test";
+        }
+        private void OnFinishOrder(object sender, RoutedEventArgs e)
+        {
+            viewModel.FinishOrder();
+        }
+        private void OnResetOrder(object sender, RoutedEventArgs e)
+        {
+            viewModel.ResetOrder();
         }
 
         private void OnBeursCrash(object sender, RoutedEventArgs e)
