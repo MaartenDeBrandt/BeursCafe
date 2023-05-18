@@ -48,7 +48,12 @@ namespace BeursCafeWPF
             BreakingNewsTextBlock.FontSize += 2;
             textBlockCounter.FontSize += 2;
 
-            foreach (TextBlock tb in FindVisualChildren<TextBlock>(DrinksDataGrid))
+            foreach (TextBlock tb in FindVisualChildren<TextBlock>(DrinksDataGridBier))
+            {
+                tb.FontSize += 2;
+            }
+
+            foreach (TextBlock tb in FindVisualChildren<TextBlock>(DrinksDataGridFrisdrank))
             {
                 tb.FontSize += 2;
             }
@@ -59,7 +64,11 @@ namespace BeursCafeWPF
         {
             BreakingNewsTextBlock.FontSize -= 2;
 
-            foreach (TextBlock tb in FindVisualChildren<TextBlock>(DrinksDataGrid))
+            foreach (TextBlock tb in FindVisualChildren<TextBlock>(DrinksDataGridBier))
+            {
+                tb.FontSize -= 2;
+            }
+            foreach (TextBlock tb in FindVisualChildren<TextBlock>(DrinksDataGridFrisdrank))
             {
                 tb.FontSize -= 2;
             }

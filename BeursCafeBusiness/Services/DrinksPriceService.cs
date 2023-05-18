@@ -105,5 +105,9 @@ namespace BeursCafeBusiness.Services
             drinksList[randomDrinkInt].SoldCount += random.Next(1, 3);
         }
 
+        public void BeursCrash(IEnumerable<Drink> drinks)
+        {
+            drinks.ToList().ForEach(el => el.Price = el.MinimumPrice);
+        }
     }
 }

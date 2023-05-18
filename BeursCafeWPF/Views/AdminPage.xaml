@@ -3,24 +3,42 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Beurs Cafe Admin" Height="850" Width="525">
     <Grid>
-        <StackPanel Orientation="Vertical" Margin="5">
-            <ListBox x:Name="DrinkList" ItemsSource="{Binding Drinks}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <Button Content="+1" Click="OnButtonSoldClick" Margin="5"/>
-                        <Button Content="+3" Click="OnButtonSoldClick3" Margin="5"/>
-                        <Button Content="+5" Click="OnButtonSoldClick5" Margin="5"/>
-                        <Button Content="+10" Click="OnButtonSoldClick10" Margin="5"/>
-                        <TextBlock Text="{Binding Name}" Margin="5"/>
-                        <TextBlock Text="{Binding Price, StringFormat='€{0:0.00}'}" Margin="5"/>
-                        <TextBlock Text="{Binding SoldCount}" Margin="5"/>
-                        </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-      
-            <Button x:Name="BreakingNewsButton" Content="Breaking News" Visibility="Hidden" Click="OnBreakingNewsClick" Margin="5"/>
+        <StackPanel Orientation="Vertical" Margin="5">            
+            <StackPanel Orientation="Horizontal" Margin="5">                
+                <ListBox x:Name="DrinkListBier" ItemsSource="{Binding Bier}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="+1" Click="OnButtonSoldClick" Margin="5"/>
+                                <Button Content="+3" Click="OnButtonSoldClick3" Margin="5"/>
+                                <Button Content="+5" Click="OnButtonSoldClick5" Margin="5"/>
+                                <Button Content="+10" Click="OnButtonSoldClick10" Margin="5"/>
+                                <TextBlock Text="{Binding Name}" Margin="5"/>
+                                <TextBlock Text="{Binding Price, StringFormat='€{0:0.00}'}" Margin="5"/>
+                                <TextBlock Text="{Binding SoldCount}" Margin="5" Visibility="Hidden"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <ListBox x:Name="DrinkListFrisdrank" ItemsSource="{Binding Frisdrank}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="+1" Click="OnButtonSoldClick" Margin="5"/>
+                                <Button Content="+3" Click="OnButtonSoldClick3" Margin="5"/>
+                                <Button Content="+5" Click="OnButtonSoldClick5" Margin="5"/>
+                                <Button Content="+10" Click="OnButtonSoldClick10" Margin="5"/>
+                                <TextBlock Text="{Binding Name}" Margin="5"/>
+                                <TextBlock Text="{Binding Price, StringFormat='€{0:0.00}'}" Margin="5"/>
+                                <TextBlock Text="{Binding SoldCount}" Margin="5" Visibility="Hidden"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+            
+            <Button x:Name="BeursCrashButton" Content="Beurscrash" Click="OnBeursCrash" Margin="5"/>
+            <Button x:Name="BreakingNewsButton" Content="Breaking News" Click="OnBreakingNewsClick" Margin="5"/>
             <Button x:Name="UpdatePrices" Content="UpdatePrices" Click ="UpdatePrices_Click"  Margin="5"/>
         </StackPanel>
 

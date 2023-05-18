@@ -53,7 +53,11 @@ namespace BeursCafeWPF.ViewModels
         {
             drink.SoldCount += numberSold;
         }
-
+        internal void BeursCrash()
+        {
+            BreakingNews = _breakingNewsService.BeursCrash();
+            _drinksPriceService.BeursCrash(Drinks);
+        }
         public void BreakingNewsButton_Click()
         {
             BreakingNews = _breakingNewsService.GetBreakingNews();
@@ -65,7 +69,20 @@ namespace BeursCafeWPF.ViewModels
         }
 
         #region Properties
-
+        public IEnumerable<Drink> Frisdrank
+        {
+            get
+            {
+                return Drinks.Where(el => el.DrinksType == "frisdrank");
+            }
+        }
+        public IEnumerable<Drink> Bier
+        {
+            get 
+            {
+                return Drinks.Where(el => el.DrinksType == "bier");
+            }
+        }
         public ObservableCollection<Drink> Drinks
         {
             get => _drinks;
@@ -73,6 +90,9 @@ namespace BeursCafeWPF.ViewModels
             {
                 _drinks = value;
                 OnPropertyChanged(nameof(Drinks));
+
+                OnPropertyChanged(nameof(Bier));
+                OnPropertyChanged(nameof(Frisdrank));
             }
         }
         public string BreakingNews
@@ -95,7 +115,7 @@ namespace BeursCafeWPF.ViewModels
             }
         }
 
-    #endregion
+        #endregion
 
         #region timerMethods
 
@@ -152,6 +172,8 @@ namespace BeursCafeWPF.ViewModels
                 OnPropertyChanged(nameof(Drinks));                
             });
         }
+
+     
 
         #endregion
     }

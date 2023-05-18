@@ -14,6 +14,11 @@ namespace BeursCafeBusiness.Services
         {
         }
 
+        public string BeursCrash()
+        {
+            return "Beurscrash: Alles aan goedkope prijzen!";
+        }
+
         public string GetBreakingNews()
         {
             // Read breaking news texts from JSON file

@@ -9,12 +9,12 @@ namespace BeursCafeBusiness.Models
 {
     public class Settings
     {
-        public int PriceUpdateIntervalInMinutes { get; set; } = 1;
+        public int PriceUpdateIntervalInMinutes { get; set; } = 3;
 
         [JsonIgnore]
         public int PriceUpdateIntervalInMs { get { return PriceUpdateIntervalInMinutes * 60 * 1000; } }
         public int TimesToUpdateExpectedInInterval { get; set; } = 10;
-        public double MaxPriceChangeTocompensateHighMarket { get; set; } = 0.3;
+        public double MaxPriceChangeTocompensateHighMarket { get; set; } = 1.5;
         public string FileLocation { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\BeursCafe";
 
         internal void LoadSettings(Settings settingsFile)

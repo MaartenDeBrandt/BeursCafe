@@ -60,10 +60,19 @@ namespace BeursCafeWPF
             Drink drink = (Drink)button.DataContext;
             viewModel.DrinkSold(drink, 10);
         }
-
         private void OnBreakingNewsClick(object sender, RoutedEventArgs e)
         {
             viewModel.BreakingNews = "Test";
+        }
+
+        private void OnBeursCrash(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Beurscrash?", "Tijd voor een beurs crash?", System.Windows.MessageBoxButton.YesNo);
+
+            if(messageBoxResult == MessageBoxResult.Yes)
+            {
+                viewModel.BeursCrash();
+            }
         }
 
         private void UpdatePrices_Click(object sender, RoutedEventArgs e)
@@ -74,7 +83,11 @@ namespace BeursCafeWPF
         private void IncreaseFont_Click(object sender, RoutedEventArgs e)
         {
 
-            foreach (TextBlock tb in FindVisualChildren<TextBlock>(DrinkList))
+            foreach (TextBlock tb in FindVisualChildren<TextBlock>(DrinkListBier))
+            {
+                tb.FontSize += 2;
+            }
+            foreach (TextBlock tb in FindVisualChildren<TextBlock>(DrinkListFrisdrank))
             {
                 tb.FontSize += 2;
             }
@@ -83,7 +96,11 @@ namespace BeursCafeWPF
 
         private void DecreaseFont_Click(object sender, RoutedEventArgs e)
         {
-            foreach (TextBlock tb in FindVisualChildren<TextBlock>(DrinkList))
+            foreach (TextBlock tb in FindVisualChildren<TextBlock>(DrinkListBier))
+            {
+                tb.FontSize -= 2;
+            }
+            foreach (TextBlock tb in FindVisualChildren<TextBlock>(DrinkListFrisdrank))
             {
                 tb.FontSize -= 2;
             }
