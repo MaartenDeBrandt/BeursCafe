@@ -16,6 +16,7 @@ using System.Diagnostics.Metrics;
 using BeursCafeBusiness.Services;
 using System.Configuration;
 using static BeursCafeBusiness.Models.Drink;
+using System.Collections;
 
 namespace BeursCafeWPF.ViewModels
 {
@@ -32,6 +33,7 @@ namespace BeursCafeWPF.ViewModels
         private BreakingNewsModel _breakingNews;
         private int _counter;
         Random _random = new Random();
+        private DateTime _lastBreakingNews = DateTime.Now;
 
         public DrinksViewModel(DrinksPriceService drinksPriceService, BreakingNewsService breakingNewsService, FileService fileService, Settings settings)
         {
@@ -41,13 +43,19 @@ namespace BeursCafeWPF.ViewModels
             _settings = settings;
 
             AllDrinks = _fileService.LoadDrinks();
+            AllDrinks.ToList().ForEach(drink => { drink.UpdatePrice(); });
             BreakingNewsList = _fileService.LoadBreakingNews(AllDrinks);
             StartTimer();
         }       
         
         public void UpdateDrinkPrice()
         {
-            _drinksPriceService.UpdateDrinksPrice(ActiveDrinks, BreakingNews);
+            _drinksPriceService.UpdateDrinksPrice(ActiveDrinks);
+
+            var numberOfDrinksToUpdate = _random.Next(2, 5);
+            _drinksPriceService.SellRandomDrink(ActiveDrinks, numberOfDrinksToUpdate);
+            //Update what the price of drinks is expected to do. Will show red or green arrows in page
+            _drinksPriceService.UpdateExpectedDrinksUpdate(ActiveDrinks, BreakingNews);
 
             FireDrinksPropertyChanged();
         }       
@@ -144,7 +152,7 @@ namespace BeursCafeWPF.ViewModels
         public IEnumerable<BreakingNewsModel> BreakingNewsList { get; set; }
         public double CurrentOrderTotalPrice => Math.Round(ActiveDrinks.Sum(drink => drink.SoldCurrentOrder * drink.Price),1);
 
-
+        public bool AutoBreakingNews { get => _settings.AutoBreakingNews; set => _settings.AutoBreakingNews = value; }
         public IEnumerable<Drink> ActiveDrinks
         {
             get => _drinks.Where(el => el.Enabled);
@@ -223,7 +231,7 @@ namespace BeursCafeWPF.ViewModels
                     {
                         //Select random drinks to be sold a random amount at the beginning of an interval
                       
-                        var numberOfDrinksToUpdate = _random.Next(2,6);
+                        var numberOfDrinksToUpdate = _random.Next(2,5);
                         _drinksPriceService.SellRandomDrink(ActiveDrinks, numberOfDrinksToUpdate);
                     }
 
@@ -234,7 +242,7 @@ namespace BeursCafeWPF.ViewModels
                 else
                 {
                     //Actually update the drink prices
-                    _drinksPriceService.UpdateDrinksPrice(ActiveDrinks, BreakingNews);
+                    _drinksPriceService.UpdateDrinksPrice(ActiveDrinks);
                     timerCounter = 0;
                     Counter = _settings.PriceUpdateIntervalInMs / 1000;
                     
@@ -242,6 +250,18 @@ namespace BeursCafeWPF.ViewModels
                     {
                         BreakingNews.AlreadyRun = true;
                         BreakingNews = null;
+                        _lastBreakingNews = DateTime.Now;                    
+                    }
+                    else
+                    {
+                        if(AutoBreakingNews && DateTime.Now > _lastBreakingNews.AddMinutes(_settings.AutoBreakingNewsAtleastMinutesApart))
+                        {
+                            //Do breakingNews random
+                            if(_random.Next(1, 7) == 1)
+                            {
+                                SelectRandomBreakingNews();
+                            }
+                        }
                     }
 
                     _fileService.SaveDrinks(AllDrinks);
@@ -254,24 +274,55 @@ namespace BeursCafeWPF.ViewModels
 
         internal void HideDrink(Drink drink)
         {
-            _drinksPriceService.HideDrink(drink);
-            if(!drink.Enabled & BreakingNews == null)
-                BreakingNews = new BreakingNewsModel() { BreakingNews = $"Breaking news: Door uitzonderlijke vraag is {drink.Name} niet langer beschikbaar." };
-            FireDrinksPropertyChanged();
+            try
+            {
+                _drinksPriceService.HideDrink(drink);
+                if(!drink.Enabled & BreakingNews == null)
+                    BreakingNews = new BreakingNewsModel() { BreakingNews = $"Breaking news: Door uitzonderlijke vraag is {drink.Name} niet langer beschikbaar." };
+                FireDrinksPropertyChanged();
+            }
+            catch (Exception)
+            {
+            }
         }
 
         internal void FinishOrder()
         {
-            _drinksPriceService.FinishOrder(ActiveDrinks);
-            FireDrinksPropertyChanged();
+            try
+            {
+
+                _drinksPriceService.FinishOrder(ActiveDrinks);
+                FireDrinksPropertyChanged();
+            }
+            catch (Exception)
+            {
+            }
         }
 
         internal void ResetOrder()
         {
-            _drinksPriceService.ResetOrder(ActiveDrinks);
-            FireDrinksPropertyChanged();
+            try
+            {
+                _drinksPriceService.ResetOrder(ActiveDrinks);
+                FireDrinksPropertyChanged();
+
+            }
+            catch (Exception)
+            {
+                
+            }
         }
 
+        internal void RommelPromo()
+        {
+            var promo =_drinksPriceService.PromoOrveloBonVieux(ActiveDrinks);
+
+            if(_breakingNewsService.CheckIfBreakingNewsStillRelevant(ActiveDrinks, promo))
+            {
+                BreakingNews = promo;
+            }
+
+        }
         #endregion
     }
 }

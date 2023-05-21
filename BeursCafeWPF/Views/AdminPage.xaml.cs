@@ -62,6 +62,10 @@ namespace BeursCafeWPF
         }
         private void OnHide(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Confirm?", "Zeker?", System.Windows.MessageBoxButton.YesNo);
+            if (messageBoxResult != MessageBoxResult.Yes)
+                return;
+
             Button button = (Button)sender;
 
             Drink drink = (Drink)button.DataContext;
@@ -71,8 +75,21 @@ namespace BeursCafeWPF
         
         private void OnBreakingNewsClick(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Confirm?", "Zeker?", System.Windows.MessageBoxButton.YesNo);
+            if (messageBoxResult != MessageBoxResult.Yes)
+                return;
+
             viewModel.SelectRandomBreakingNews();
         }
+        private void OnRommelPromoClick(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Confirm?", "Zeker?", System.Windows.MessageBoxButton.YesNo);
+            if (messageBoxResult != MessageBoxResult.Yes)
+                return;
+
+            viewModel.RommelPromo();
+        }
+        
         private void OnFinishOrder(object sender, RoutedEventArgs e)
         {
             viewModel.FinishOrder();
@@ -94,6 +111,10 @@ namespace BeursCafeWPF
 
         private void UpdatePrices_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Confirm?", "Zeker?", System.Windows.MessageBoxButton.YesNo);
+            if (messageBoxResult != MessageBoxResult.Yes)
+                return;
+
             viewModel.UpdateDrinkPrice();
         }
 

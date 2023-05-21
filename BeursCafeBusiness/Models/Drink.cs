@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static BeursCafeBusiness.Models.Drink;
 
 namespace BeursCafeBusiness.Models
 {
@@ -12,7 +13,7 @@ namespace BeursCafeBusiness.Models
     {
         public enum DrinkTypes
         {
-            bier,frisdrank,grotefles
+            bier, frisdrank, grotefles
         }
         private string name;
         private double minimumPrice;
@@ -20,14 +21,13 @@ namespace BeursCafeBusiness.Models
         private double defaultPrice;
         private double price;
         private int soldCount;
-        private int updatePricePercentage;
-        private bool priceWillRise;
-        private bool priceWillFall;
+        private double newPrice;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public Drink()
         {
-            Enabled= true;
+            Enabled = true;
+            newPrice = Price;
         }
         public string Name
         {
@@ -75,7 +75,7 @@ namespace BeursCafeBusiness.Models
         {
             get
             {
-                return price;
+                return Math.Round(price, 1);
             }
 
             set
@@ -92,10 +92,33 @@ namespace BeursCafeBusiness.Models
                 {
                     price = value;
                 }
+                newPrice = Price;
                 OnPropertyChanged("Price");
             }
         }
 
+        public double NewPrice 
+        { 
+            get => newPrice;
+            set
+            {
+                if (value < MinimumPrice)
+                {
+                    newPrice = MinimumPrice;
+                }
+                else if (value > MaximumPrice)
+                {
+                    newPrice = MaximumPrice;
+                }
+                else
+                {
+                    newPrice = Math.Round(value, 1);
+                }
+
+                OnPropertyChanged("PriceWillRise");
+                OnPropertyChanged("PriceWillFall");
+            }
+        }
         public int SoldCount
         {
             get { return soldCount; }
@@ -110,50 +133,47 @@ namespace BeursCafeBusiness.Models
         public int SoldCurrentOrder { get; set; }
         public bool PriceWillRise
         {
-            get { return priceWillRise; }
-            set
-            {
-                priceWillRise = value;
-                OnPropertyChanged("PriceWillRise");
-                OnPropertyChanged("PriceWillFall");
-            }
+            get { return NewPrice > Price && (Math.Abs(Price-NewPrice) > 0.1); }
         }
 
         public bool PriceWillFall
         {
-            get { return priceWillFall; }
-            set
-            {
-                priceWillFall = value;
-                OnPropertyChanged("PriceWillFall");
-                OnPropertyChanged("PriceWillRise");
-            }
+            get { return NewPrice < Price && (Math.Abs(Price - NewPrice) > 0.1); }
         }
 
         public bool Enabled { get; internal set; }
 
-        public void UpdatePrice(IEnumerable<Drink> allDrinks, BreakingNewsModel breakingNews)
+        public void UpdatePrice()
         {
-            double priceUpdate = CalculatePriceUpdate(allDrinks, breakingNews);
 
-            Console.WriteLine($"{Name} Sold:{soldCount} OldPrice: {Price} NewPrice:{priceUpdate} Difference:{priceUpdate- Price} ");
-            Price = priceUpdate;
+            if (NewPrice != Price)
+                Console.WriteLine($"{Name} Sold:{soldCount} OldPrice: {Price} NewPrice:{NewPrice} Difference:{Math.Round(NewPrice - Price,1)} ");
+
+            Price = NewPrice;
         }
 
         private double CalculatePriceUpdate(IEnumerable<Drink> allDrinks, BreakingNewsModel breakingNews)
         {
+            double totalDefaultPrices = allDrinks.Sum(d => d.DefaultPrice);
+            double totalCurrentPrices = allDrinks.Sum(d => d.NewPrice);
+            double difference = totalDefaultPrices - totalCurrentPrices;
+            bool isMarketToHigh = difference < 0;
+
             double averageSoldCount = allDrinks.Average(d => d.SoldCount);
             double priceDifference = SoldCount - averageSoldCount;
-            double priceUpdate = priceDifference * 0.1; // adjust this factor to control the size of the price changes
+            double priceUpdate = priceDifference * 0.2; // adjust this factor to control the size of the price changes
 
-            //Dont lower price when item has been sold. Keep it neutral at least
-            if (soldCount > 0 && priceUpdate < 0)
-                priceUpdate = 0;
+           // if (Math.Round(priceUpdate, 1) < 0.1 || (isMarketToHigh && Math.Round(priceUpdate, 1) < 0))
+           //     return Price;
+
+            //Dont lower price when item has been sold. Must at least go a bit higher.
+            if (soldCount > 0 && priceUpdate <= 0)
+                priceUpdate = 0.1;
 
             if (SoldCount == 0 || (SoldCount > 0 && priceUpdate < 0))
             {
                 Random random = new Random();
-                var maxChangePercentage = random.Next(0,25);
+                var maxChangePercentage = random.Next(0, 25);
                 var maxChange = ((MaximumPrice - MinimumPrice) / 100) * maxChangePercentage;
 
                 if (priceUpdate < 0)
@@ -193,19 +213,17 @@ namespace BeursCafeBusiness.Models
 
         public void UpdateExpectedPriceUpdate(IEnumerable<Drink> allDrinks, BreakingNewsModel breakingNews)
         {
-            double newPrice =  CalculatePriceUpdate(allDrinks, breakingNews);
+            double updateToPrice = CalculatePriceUpdate(allDrinks, breakingNews);
 
-            PriceWillRise = false;
-            PriceWillFall = false;
+            var priceDifference = Math.Abs(updateToPrice - Price);
 
-            if (newPrice > Price && Price < MaximumPrice)
-                PriceWillRise = true;
+            if (priceDifference < 0.1)
+                return;
 
-            if (Price > newPrice && Price > MinimumPrice)
-                PriceWillFall = true;
+           NewPrice = updateToPrice;
 
         }
-        
+
         public override string ToString()
         {
             return Name;

@@ -16,8 +16,7 @@
                                 <Button Content="+10" Click="OnButtonSoldClick10" Margin="5"/>
                                 <Button Content="Hide" Click="OnHide" Margin="5"/>
                                 <TextBlock Text="{Binding Name}" Margin="5"/>
-                                <TextBlock Text="{Binding Price, StringFormat='€{0:0.00}'}" Margin="5"/>
-                                <TextBlock Text="{Binding SoldCount}" Margin="5" Visibility="Hidden"/>
+                                <TextBlock Text="{Binding SoldCurrentOrder}" Margin="5"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -32,8 +31,7 @@
                                 <Button Content="+10" Click="OnButtonSoldClick10" Margin="5"/>
                                 <Button Content="Hide" Click="OnHide" Margin="5"/>
                                 <TextBlock Text="{Binding Name}" Margin="5"/>
-                                <TextBlock Text="{Binding Price, StringFormat='€{0:0.00}'}" Margin="5"/>
-                                <TextBlock Text="{Binding SoldCount}" Margin="5" Visibility="Hidden"/>
+                                <TextBlock Text="{Binding SoldCurrentOrder}" Margin="5" />
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -49,8 +47,7 @@
                                 <Button Content="+10" Click="OnButtonSoldClick10" Margin="5"/>
                                 <Button Content="Hide" Click="OnHide" Margin="5"/>
                                 <TextBlock Text="{Binding Name}" Margin="5"/>
-                                <TextBlock Text="{Binding Price, StringFormat='€{0:0.00}'}" Margin="5"/>
-                                <TextBlock Text="{Binding SoldCount}" Margin="5" Visibility="Hidden"/>
+                                <TextBlock Text="{Binding SoldCurrentOrder}" Margin="5"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -67,8 +64,9 @@
             <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
                 <Button x:Name="BeursCrashButton" Content="Beurscrash" Click="OnBeursCrash" Margin="5" Width="120"/>
                 <Button x:Name="BreakingNewsButton" Content="Push News/Promo" Click="OnBreakingNewsClick" Margin="5" Width="120"/>
+                <Button x:Name="RommelPromoButton" Content="Push Rommel Promo" Click="OnRommelPromoClick" Margin="5" Width="120"/>
                 <Button x:Name="UpdatePrices" Content="Force update prijzen" Click ="UpdatePrices_Click"  HorizontalAlignment="Left" Margin="5" Width="120"/>
-                <CheckBox x:Name="checkBox" Content="Auto News/Promoties"  Margin="5" />
+                <CheckBox x:Name="checkBox" Content="Auto News/Promoties"  Margin="5" IsChecked="{Binding AutoBreakingNews}" />
             </StackPanel>
 
             <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">

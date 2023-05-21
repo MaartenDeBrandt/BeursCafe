@@ -143,7 +143,7 @@
         <TextBlock Text="{Binding Counter}" Name="textBlockCounter" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="50"/>
 
         <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Vertical" VerticalAlignment="Bottom">
-            <TextBlock x:Name="BreakingNewsTextBlock" Text="{Binding BreakingNews}" Margin="5" FontSize="40" FontWeight="Bold"  VerticalAlignment="Bottom"  Foreground="Red" LineHeight="5"  TextWrapping="Wrap" />
+            <TextBlock x:Name="BreakingNewsTextBlock" Text="{Binding BreakingNews}" Margin="5" FontSize="30" FontWeight="Bold"  VerticalAlignment="Bottom"  Foreground="Red" LineHeight="5"  TextWrapping="Wrap" />
             
             <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                 <Button Content="Font +" Click="IncreaseFont_Click"/>

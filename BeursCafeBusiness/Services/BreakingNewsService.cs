@@ -27,8 +27,20 @@ namespace BeursCafeBusiness.Services
             {
                 foreach (var drinkName in breakingNews.Drinks)
                 {
-                    if(activeDrinks.Contains(drinkName))
+                    var drink = activeDrinks.FirstOrDefault(drinkName);
+                    if (drink != null)
+                    {
+                        if (breakingNews.PriceUpdate < 0 && drink.Price == drink.MinimumPrice && breakingNews.Drinks.Count > 1)
+                        {
+                            return false;
+                        }
+                        if (breakingNews.PriceUpdate > 0 && drink.Price == drink.MaximumPrice && breakingNews.Drinks.Count > 1)
+                        {
+                            return false;
+                        }
+
                         return true;
+                    }
                 }
             }
 

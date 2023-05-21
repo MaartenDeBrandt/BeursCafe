@@ -13,11 +13,12 @@ namespace BeursCafeBusiness.Models
 
         [JsonIgnore]
         public int PriceUpdateIntervalInMs { get { return PriceUpdateIntervalInMinutes * 60 * 1000; } }
-        public int TimesToUpdateExpectedInInterval { get; set; } = 10;
-        public double MaxPriceChangeTocompensateHighMarket { get; set; } = 1.5;
+        public int TimesToUpdateExpectedInInterval { get; set; } = 30;
+        public double MaxPriceChangeTocompensateHighMarket { get; set; } = 1;
         public string FileLocation { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\BeursCafe";
 
         public bool AutoBreakingNews { get; set; }
+        public int AutoBreakingNewsAtleastMinutesApart { get; set; } = 20;
         internal void LoadSettings(Settings settingsFile)
         {
             PriceUpdateIntervalInMinutes = settingsFile.PriceUpdateIntervalInMinutes;
