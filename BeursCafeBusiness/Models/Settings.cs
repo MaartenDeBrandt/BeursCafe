@@ -17,6 +17,7 @@ namespace BeursCafeBusiness.Models
         public double MaxPriceChangeTocompensateHighMarket { get; set; } = 1.5;
         public string FileLocation { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\BeursCafe";
 
+        public bool AutoBreakingNews { get; set; }
         internal void LoadSettings(Settings settingsFile)
         {
             PriceUpdateIntervalInMinutes = settingsFile.PriceUpdateIntervalInMinutes;

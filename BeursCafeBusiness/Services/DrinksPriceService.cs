@@ -15,7 +15,6 @@ namespace BeursCafeBusiness.Services
     {
         private readonly FileService _fileService;
         private readonly Settings _settings;
-
         public DrinksPriceService(FileService fileService, Settings settings)
         {
             _fileService = fileService;
@@ -25,43 +24,41 @@ namespace BeursCafeBusiness.Services
 
         }
 
-        public void UpdateExpectedDrinksUpdate(IEnumerable<Drink> allDrinks)
+        public void UpdateExpectedDrinksUpdate(IEnumerable<Drink> allDrinks, BreakingNewsModel breakingNews)
         {
             foreach (var drinks in allDrinks.GroupBy(el => el.DrinksType))
             {
                 //Update all prices
                 foreach (var drink in drinks)
                 {
-                    drink.UpdateExpectedPriceUpdate(drinks);
+                    drink.UpdateExpectedPriceUpdate(drinks, breakingNews);
                 }
             }
 
             //TODO deal with expected breaking news updates
         }
 
-        public void UpdateDrinksPrice(IEnumerable<Drink> allDrinks)
+        public void UpdateDrinksPrice(IEnumerable<Drink> drinks, BreakingNewsModel breakingNews)
         {
-            foreach (var drinks in allDrinks.GroupBy(el => el.DrinksType))
+            foreach (var drinkGroup in drinks.GroupBy(el => el.DrinksType))
             {
                 //Update all prices
-                foreach (var drink in drinks)
+                foreach (var drink in drinkGroup)
                 {
-                    drink.UpdatePriceBasedOnSoldCount(drinks);
+                    drink.UpdatePrice(drinkGroup, breakingNews);
                 }
                 //Set all sold counts to 0
-                foreach (var drink in drinks)
+                foreach (var drink in drinkGroup)
                 {
                     drink.SoldCount = 0;
                     drink.PriceWillFall = false;
                     drink.PriceWillRise = false;
                 }
-
-                //TODO add logic to deal with BreakingNews updates. This could make certain beers more expensive or cheaper.
-                CompensateForMarketImbalance(drinks);
+                CompensateForMarketImbalance(drinkGroup);
             }
-            _fileService.SaveDrinks(allDrinks);
             _fileService.SaveSettings(_settings);
         }
+
 
         //Try to get the total sum of prices the same as the normal prices. Dont drop to fast.
         private void CompensateForMarketImbalance(IEnumerable<Drink> drinks)
@@ -69,7 +66,6 @@ namespace BeursCafeBusiness.Services
             double totalDefaultPrices = drinks.Sum(d => d.DefaultPrice);
             double totalCurrentPrices = drinks.Sum(d => d.Price);
             double difference = totalDefaultPrices - totalCurrentPrices;
-
             var numberOfRandomDrinksToUpdate = Math.Min(Math.Abs(difference) / 0.1, _settings.MaxPriceChangeTocompensateHighMarket / 0.1);
 
             if (difference < -0.1)

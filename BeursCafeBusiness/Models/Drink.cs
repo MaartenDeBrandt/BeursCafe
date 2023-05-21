@@ -10,6 +10,10 @@ namespace BeursCafeBusiness.Models
 {
     public class Drink : INotifyPropertyChanged
     {
+        public enum DrinkTypes
+        {
+            bier,frisdrank,grotefles
+        }
         private string name;
         private double minimumPrice;
         private double maximumPrice;
@@ -35,7 +39,7 @@ namespace BeursCafeBusiness.Models
             }
         }
 
-        public string DrinksType { get; set; }
+        public DrinkTypes DrinksType { get; set; }
         public double MinimumPrice
         {
             get { return minimumPrice; }
@@ -128,15 +132,15 @@ namespace BeursCafeBusiness.Models
 
         public bool Enabled { get; internal set; }
 
-        public void UpdatePriceBasedOnSoldCount(IEnumerable<Drink> allDrinks)
+        public void UpdatePrice(IEnumerable<Drink> allDrinks, BreakingNewsModel breakingNews)
         {
-            double priceUpdate = CalculatePriceUpdate(allDrinks);
+            double priceUpdate = CalculatePriceUpdate(allDrinks, breakingNews);
 
             Console.WriteLine($"{Name} Sold:{soldCount} OldPrice: {Price} NewPrice:{priceUpdate} Difference:{priceUpdate- Price} ");
             Price = priceUpdate;
         }
 
-        private double CalculatePriceUpdate(IEnumerable<Drink> allDrinks)
+        private double CalculatePriceUpdate(IEnumerable<Drink> allDrinks, BreakingNewsModel breakingNews)
         {
             double averageSoldCount = allDrinks.Average(d => d.SoldCount);
             double priceDifference = SoldCount - averageSoldCount;
@@ -164,12 +168,32 @@ namespace BeursCafeBusiness.Models
                 priceUpdate = Math.Round(Price + priceUpdate, 1);
             }
 
+            priceUpdate = UpdateForBreakingNews(priceUpdate, allDrinks, breakingNews);
+
             return Math.Round(priceUpdate, 1);
         }
 
-        public void UpdateExpectedPriceUpdate(IEnumerable<Drink> allDrinks)
+        private double UpdateForBreakingNews(double priceUpdate, IEnumerable<Drink> drinks, BreakingNewsModel breakingNews)
         {
-            double newPrice =  CalculatePriceUpdate(allDrinks);
+            try
+            {
+                if (breakingNews != null && breakingNews.Drinks.Any())
+                {
+                    if (breakingNews.Drinks.Contains(this))
+                        priceUpdate += breakingNews.PriceUpdate;
+                }
+
+            }
+            catch (Exception)
+            {
+            }
+
+            return priceUpdate;
+        }
+
+        public void UpdateExpectedPriceUpdate(IEnumerable<Drink> allDrinks, BreakingNewsModel breakingNews)
+        {
+            double newPrice =  CalculatePriceUpdate(allDrinks, breakingNews);
 
             PriceWillRise = false;
             PriceWillFall = false;
@@ -191,29 +215,5 @@ namespace BeursCafeBusiness.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        /*
-        internal double CalcUpdatePrice(double priceUpdate)
-        {
-            double valueToAdd = priceUpdate;
-            double newPrice = DefaultPrice + ToUpdatePrice + priceUpdate;
-
-            if (newPrice > MaximumPrice)
-            {
-                var maxRise = MaximumPrice - DefaultPrice;
-                valueToAdd = maxRise - ToUpdatePrice;
-
-            }
-            else if (newPrice < MinimumPrice)
-            {
-                var minRise = MinimumPrice - DefaultPrice;
-                valueToAdd = minRise - ToUpdatePrice;
-                
-            }
-
-            ToUpdatePrice += valueToAdd;
-            return valueToAdd;
-        }
-        */
     }
 }

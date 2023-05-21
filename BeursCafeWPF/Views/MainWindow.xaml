@@ -49,6 +49,50 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+            
+            <DataGrid x:Name="DrinksDataGridGroteFles" Grid.Row="0" AutoGenerateColumns="False" ItemsSource="{Binding GroteFlesEnabled}" GridLinesVisibility="Horizontal" IsReadOnly="True">
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="IsHitTestVisible" Value="False"/>
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="" Binding="{Binding Name}" FontSize="30"/>
+                    <DataGridTextColumn Header="" Binding="{Binding Price, StringFormat='€{0:0.00}'}" FontSize="30"/>
+                    <DataGridTemplateColumn Header="">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock x:Name="DrinkRedArrow" Text="&#9650;" Foreground="Red" Margin="5" FontWeight="Bold" FontSize="15">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding PriceWillRise}" Value="True">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                    <TextBlock x:Name="DrinkGreenArrow" Text="&#9660;" Foreground="Green" Margin="5" FontWeight="Bold" FontSize="15">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding PriceWillFall}" Value="True">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
 
             <DataGrid x:Name="DrinksDataGridFrisdrank" Grid.Row="0" AutoGenerateColumns="False" ItemsSource="{Binding FrisdrankEnabled}" GridLinesVisibility="Horizontal" IsReadOnly="True">
                 <DataGrid.RowStyle>
@@ -93,12 +137,13 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
+        
         </StackPanel>
         
         <TextBlock Text="{Binding Counter}" Name="textBlockCounter" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="50"/>
 
         <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Vertical" VerticalAlignment="Bottom">
-            <TextBlock x:Name="BreakingNewsTextBlock" Text="{Binding BreakingNews}" Margin="5" FontSize="40" FontWeight="Bold"  VerticalAlignment="Bottom"  Foreground="Red"/>
+            <TextBlock x:Name="BreakingNewsTextBlock" Text="{Binding BreakingNews}" Margin="5" FontSize="40" FontWeight="Bold"  VerticalAlignment="Bottom"  Foreground="Red" LineHeight="5"  TextWrapping="Wrap" />
             
             <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                 <Button Content="Font +" Click="IncreaseFont_Click"/>

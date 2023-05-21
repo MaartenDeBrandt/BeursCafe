@@ -1,10 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using BeursCafeBusiness.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace BeursCafeBusiness.Services
 {
@@ -19,16 +21,18 @@ namespace BeursCafeBusiness.Services
             return "Beurscrash: Alles aan goedkope prijzen!";
         }
 
-        public string GetBreakingNews()
+        public bool CheckIfBreakingNewsStillRelevant(IEnumerable<Drink> activeDrinks, BreakingNewsModel breakingNews)
         {
-            // Read breaking news texts from JSON file
-            var breakingNewsJson = File.ReadAllText("breakingnews.json");
-            var breakingNews = JsonConvert.DeserializeObject<string[]>(breakingNewsJson);
+            if (breakingNews != null && breakingNews.Drinks != null)
+            {
+                foreach (var drinkName in breakingNews.Drinks)
+                {
+                    if(activeDrinks.Contains(drinkName))
+                        return true;
+                }
+            }
 
-            // Choose a random breaking news text
-            var random = new Random();
-            var index = random.Next(breakingNews.Length);
-            return breakingNews[index];
+            return false;
         }
     }
 }

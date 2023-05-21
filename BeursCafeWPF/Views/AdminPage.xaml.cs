@@ -71,7 +71,7 @@ namespace BeursCafeWPF
         
         private void OnBreakingNewsClick(object sender, RoutedEventArgs e)
         {
-            viewModel.BreakingNews = "Test";
+            viewModel.SelectRandomBreakingNews();
         }
         private void OnFinishOrder(object sender, RoutedEventArgs e)
         {
